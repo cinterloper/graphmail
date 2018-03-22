@@ -10,6 +10,7 @@ checkReady(){
 recalcDegDist(){
   curl http://localhost:6502/degDist | jq .
 }
+#pass a mail(sub)dir as an argument to process mail within
 importMaildir(){
   python scripts/python/graphmail_tool/mailtool.py --import_maildir $1
 }
@@ -24,4 +25,4 @@ startJanusBackground(){
   ext/janus/janusgraph-0.2.0-hadoop2/bin/gremlin-server.sh &
   export JANUS_ROOT_PID=$$
 }
-echo "Interactive commands: importMaildir plotDegDist recalcDegDist"
+echo "Interactive commands: importMaildir plotDegDist recalcDegDist checkReady"
