@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url "http://mvn.iowntheinter.net:8888/repository/"
+    } // for kvdn
+    maven {
+        url "http://download.oracle.com/maven"
+    } // for bje
+
+}
+
+sourceCompatibility = '1.8'
+def vertxVersion = '3.5.1'
+def kvdn_version = "$vertxVersion-2.0.0-b11"
+version = "$kvdn_version-0.1"
+dependencies {
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+    compile 'ch.qos.logback:logback-core:1.1.7'
+    compile "io.vertx:vertx-core:$vertxVersion"
+    compile "net.iowntheinter:kvdn:$kvdn_version"
+    compile "net.iowntheinter:kvdn-server:$kvdn_version"
+    compile "net.iowntheinter:kvdn-util:$kvdn_version"
+    compile "net.iowntheinter:kvdn-service-proxy:$kvdn_version"
+    compile "net.iowntheinter:kvdn-mapdb-extensions:$kvdn_version"
+    compile 'org.apache.tinkerpop:tinkerpop:3.2.6'
+    compile 'org.apache.tinkerpop:gremlin-groovy:3.2.6'
+    compile 'org.apache.tinkerpop:gremlin-driver:3.2.6'
+    compile 'org.janusgraph:janusgraph-core:0.2.0'
+    compile 'org.janusgraph:janusgraph-berkeleyje:0.2.0'
+    compile 'org.janusgraph:janusgraph-lucene:0.2.0'
+
+}
+mainClassName = 'io.vertx.core.Launcher'
+def mainVerticleName = 'net.iowntheinter.graphmail.GraphMailCoreServer'
+
+shadowJar {
+    manifest {
+        attributes "Main-Verticle": mainVerticleName
+
+    }
+    zip64 = true
+
+    classifier = 'fat'
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.0'
+}

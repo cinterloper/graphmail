@@ -1,0 +1,10 @@
+{
+  "remote_graph_config":"conf/remote-graph.properties",
+  "kvdn":{
+    "data_implementation":"net.iowntheinter.kvdn.mapdb.impl.MapdbDataImpl",
+    "key_provider":"net.iowntheinter.kvdn.mapdb.impl.MapdbKeyProvider",
+    "mapdb":{
+      "dbPath":"db/kvdn-mapdb.db"
+    }
+  }
+}
